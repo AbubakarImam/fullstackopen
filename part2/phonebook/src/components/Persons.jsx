@@ -1,8 +1,8 @@
 
 function Persons({ person, deletePerson }) {
     return (
-        <div>
-            <p>{person.name} {person.number}</p>
+        <div className="persons">
+            {person.name} {person.number}
             <button onClick={() => deletePerson(person.id)}>Delete</button>
 
             {/* {personsToShow.map(person =>

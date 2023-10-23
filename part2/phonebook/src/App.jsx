@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import './index.css'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
@@ -9,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [message, setMessage] = useState({ text: null, type: null })
 
   useEffect(() => {
     personService
@@ -55,6 +57,15 @@ const App = () => {
             setNewName('')
             setNewNumber('')
           })
+          .catch(error => {
+            setMessage({
+              text: `Information of ${newName} has already been removed from server`,
+              type: 'error'
+            })
+            setTimeout(() => {
+              setMessage({ text: null, type: null })
+            }, 5000)
+          })
       }
     } else {
       const personObject = {
@@ -67,6 +78,13 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setMessage({
+            text: `Added ${newName}`,
+            type: 'success'
+          })
+          setTimeout(() => {
+            setMessage({ text: null, type: null })
+          }, 5000)
         })
     }
   }
@@ -102,12 +120,14 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message.text} type={message.type} />
       <Filter value={filter} onChange={handleFilterChange} />
 
       <h1>add a contact</h1>
       <PersonForm {...{ newName, newNumber, handleNameChange, handleNumberChange, addName }} />
 
       <h2>Numbers</h2>
+
       {personsToShow.map(person => <Persons key={person.id} person={person} deletePerson={() => deletePerson(person.id)} />)}
       {/* <Persons personsToShow={personsToShow} deletePerson={deletePerson} /> */}
     </div>
@@ -115,3 +135,15 @@ const App = () => {
 }
 
 export default App
+
+const Notification = ({ message, type }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className={type === 'success' ? 'success-message' : 'error-message'}>
+      {message}
+    </div>
+  )
+}
