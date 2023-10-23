@@ -9,7 +9,7 @@ function Countries({ countries, selectedCountry, handleShowCountry }) {
         <div>
             {countries.map(country => <div key={country.ccn3}>
                 {country.name.common}
-                <button onClick={() => handleShowCountry(country)}>show</button>
+                <button onClick={() => handleShowCountry(country.name.common)}>show</button>
             </div>)}
             {selectedCountry && <CountryInfo country={selectedCountry} />}
         </div>

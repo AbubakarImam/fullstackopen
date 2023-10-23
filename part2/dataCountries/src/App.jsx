@@ -19,6 +19,7 @@ function App() {
     setValue(inputValue)
 
     if (inputValue === '') {
+      setSelectedCountry(null)
       countriesService
         .getAll()
         .then(initialCountries => {
@@ -32,8 +33,12 @@ function App() {
     }
   }
 
-  const handleShowCountry = (country) => {
-    setSelectedCountry(country);
+  const handleShowCountry = (name) => {
+    countriesService
+      .getOne(name)
+      .then(country => {
+        setSelectedCountry(country)
+      })
   };
 
   return (

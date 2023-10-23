@@ -1,24 +1,21 @@
 import axios from 'axios'
 const baseUrl = 'https://studies.cs.helsinki.fi/restcountries/api'
+const openWeatherUrl = import.meta.env.VITE_BASE_URL
+const apiKey = import.meta.env.VITE_API_KEY
 
 const getAll = () => {
     const request = axios.get(`${baseUrl}/all`)
     return request.then(response => response.data)
 }
 
-const create = newObject => {
-    const request = axios.post(baseUrl, newObject)
+const getOne = (name) => {
+    const request = axios.get(`${baseUrl}/name/${name}`)
     return request.then(response => response.data)
 }
 
-const update = (id, newObject) => {
-    const request = axios.put(`${baseUrl}/${id}`, newObject)
+const getWeather = (capital) => {
+    const request = axios.get(`${openWeatherUrl}?q=${capital}&APPID=${apiKey}`)
     return request.then(response => response.data)
 }
 
-const remove = (id) => {
-    const request = axios.delete(`${baseUrl}/${id}`)
-    return request.then(response => response.data)
-}
-
-export default { getAll, create, update, remove }
+export default { getAll, getOne, getWeather }
