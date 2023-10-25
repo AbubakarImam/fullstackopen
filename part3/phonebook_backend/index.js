@@ -1,7 +1,11 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
+morgan.token('type', (req, res) => { return JSON.stringify(req.body) })
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :type'));
+
 
 let persons = [
     {
@@ -64,7 +68,7 @@ app.delete('/api/persons/:id', (req, res) => {
     res.status(204).end()
 })
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
     const body = req.body
 
     if (!body.name || !body.number) {
@@ -95,6 +99,11 @@ app.get('/info', (req, res) => {
     <p> Phonebook has info for ${size} people </p>
     <p>${date()}</>
     `)
+})
+
+app.use((err, req, res, next) => {
+    console.log(err.stack);
+    res.status(500).send('Something went wrong')
 })
 
 const PORT = 3002
