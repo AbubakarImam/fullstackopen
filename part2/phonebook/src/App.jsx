@@ -20,29 +20,6 @@ const App = () => {
       })
   }, [])
 
-  // const addName = (e) => {
-  //   e.preventDefault()
-
-  //   const confirm = persons.some(person => person.name === newName && person.number === newNumber)
-  //   if (confirm) {
-  //     alert(`${newName} and ${newNumber} is already added to phonebook`)
-  //   } else {
-  //     const personObject = {
-  //       name: newName,
-  //       number: newNumber,
-  //     }
-  //     personService
-  //       .create(personObject)
-  //       .then(returnedPerson => {
-  //         setPersons(persons.concat(returnedPerson))
-  //         setNewName('')
-  //         setNewNumber('')
-  //       })
-  //   }
-
-  //   console.log('button clicked', e.target);
-  // }
-
   const addName = (e) => {
     e.preventDefault()
     const userExist = persons.find(person => person.name === newName)

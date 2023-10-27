@@ -10,7 +10,7 @@ const App = () => {
   useEffect(() => {
     console.log('effect')
     noteService
-      .getall()
+      .getAll()
       .then(initialNotes => {
         setNotes(initialNotes)
       })
