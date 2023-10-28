@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
+app.use(express.static('dist'))
 app.use(cors())
 morgan.token('type', (req, res) => { return JSON.stringify(req.body) })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :type'));
@@ -103,11 +104,8 @@ app.get('/info', (req, res) => {
     `)
 })
 
-app.use((err, req, res, next) => {
-    console.log(err.stack);
-    res.status(500).send('Something went wrong')
-})
 
-const PORT = 3002
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`);
+const PORT = process.env.PORT || 3003
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
