@@ -30,14 +30,19 @@ const person = new Person({
 })
 
 
-person.save().then(result => {
-    console.log(`added ${result.name} ${result.number} to phonebook`)
-    mongoose.connection.close()
-})
+if (process.argv.length > 4) {
+    person.save().then(result => {
+        console.log(`added ${result.name} ${result.number} to phonebook`)
+        mongoose.connection.close()
+    })
+}
 
-// Note.find({ important: true }).then(result => {
-//     result.forEach(note => {
-//         console.log(note)
-//     })
-//     mongoose.connection.close()
-// })
+if (process.argv.length < 4) {
+    console.log('Phonebook:')
+    Person.find({}).then(result => {
+        result.forEach(person => {
+            console.log(person.name, person.number)
+        })
+        mongoose.connection.close()
+    })
+}
